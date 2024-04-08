@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.pullock.promotion.core.dao.mapper.RuleTargetMapper">
+  <resultMap id="BaseResultMap" type="fun.pullock.promotion.core.dao.model.RuleTargetDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="rule_type" jdbcType="SMALLINT" property="ruleType" />
+    <result column="rule_id" jdbcType="BIGINT" property="ruleId" />
+    <result column="target_id" jdbcType="BIGINT" property="targetId" />
+    <result column="target_type" jdbcType="SMALLINT" property="targetType" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, create_time, update_time, rule_type, rule_id, target_id, target_type
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rule_target
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from rule_target
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="fun.pullock.promotion.core.dao.model.RuleTargetDO">
+    insert into rule_target (id, create_time, update_time, 
+      rule_type, rule_id, target_id, 
+      target_type)
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{ruleType,jdbcType=SMALLINT}, #{ruleId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT}, 
+      #{targetType,jdbcType=SMALLINT})
+  </insert>
+
+  <insert id="insertSelective" parameterType="fun.pullock.promotion.core.dao.model.RuleTargetDO">
+    insert into rule_target
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="ruleType != null">
+        rule_type,
+      </if>
+      <if test="ruleId != null">
+        rule_id,
+      </if>
+      <if test="targetId != null">
+        target_id,
+      </if>
+      <if test="targetType != null">
+        target_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleType != null">
+        #{ruleType,jdbcType=SMALLINT},
+      </if>
+      <if test="ruleId != null">
+        #{ruleId,jdbcType=BIGINT},
+      </if>
+      <if test="targetId != null">
+        #{targetId,jdbcType=BIGINT},
+      </if>
+      <if test="targetType != null">
+        #{targetType,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.promotion.core.dao.model.RuleTargetDO">
+    update rule_target
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleType != null">
+        rule_type = #{ruleType,jdbcType=SMALLINT},
+      </if>
+      <if test="ruleId != null">
+        rule_id = #{ruleId,jdbcType=BIGINT},
+      </if>
+      <if test="targetId != null">
+        target_id = #{targetId,jdbcType=BIGINT},
+      </if>
+      <if test="targetType != null">
+        target_type = #{targetType,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="fun.pullock.promotion.core.dao.model.RuleTargetDO">
+    update rule_target
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      rule_type = #{ruleType,jdbcType=SMALLINT},
+      rule_id = #{ruleId,jdbcType=BIGINT},
+      target_id = #{targetId,jdbcType=BIGINT},
+      target_type = #{targetType,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

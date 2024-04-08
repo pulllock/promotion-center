@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: promotion-center
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/promotion_center?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 12345678
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      timeout: 2000
+      connect-timeout: 2000
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 20
+          min-idle: 0
+          max-wait: -1
+
+server:
+  port: 8080
+
+# mybatis
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: fun.pullock.promotion.core.dao.model

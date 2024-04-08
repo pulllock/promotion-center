@@ -1,0 +1,81 @@
+CREATE TABLE `rule` (
+  id                  bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID', 
+  create_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间', 
+  name                varchar(20)                        NOT NULL COMMENT '名称', 
+  description         varchar(500)                                DEFAULT NULL COMMENT '描述', 
+  type                smallint(6)                        NOT NULL DEFAULT 1 COMMENT '类型，取值：1-优惠券 2-满减 3-满件折 4-满额赠 5-积分 6-金币', 
+  scope               smallint(6)                        NOT NULL DEFAULT 1 COMMENT '作用范围，取值：1-商品 2-商户 3-类目', 
+  `mode`              smallint(6)                        NOT NULL DEFAULT 1 COMMENT '计算模式，取值：1-单个 2-累加', 
+  status              smallint(6)                        NOT NULL DEFAULT 0 COMMENT '状态，取值：0-禁用 1-启用', 
+  start_time          datetime                                    DEFAULT NULL COMMENT '开始时间', 
+  end_time            datetime                                    DEFAULT NULL COMMENT '结束时间', 
+  channel             json                               NOT NULL COMMENT '渠道，JSON数组', 
+  exclusive           tinyint(1)                         NOT NULL DEFAULT 0 COMMENT '是否互斥，取值：0-不互斥 1-互斥', 
+  `order`             int(10)                            NOT NULL COMMENT '排序', 
+  rules               json                                        DEFAULT NULL COMMENT '促销规则（JSON格式）', 
+  PRIMARY KEY (id)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '促销规则';
+
+CREATE TABLE coupon_rule (
+  id                  bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID', 
+  create_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间', 
+  rule_id             bigint(20)                         NOT NULL COMMENT '规则ID', 
+  name                varchar(20)                        NOT NULL COMMENT '名称', 
+  description         varchar(500)                                DEFAULT NULL COMMENT '描述', 
+  rule_description    varchar(500)                                DEFAULT NULL COMMENT '规则描述', 
+  status              smallint(6)                        NOT NULL DEFAULT 0 COMMENT '状态，取值：0-禁用 1-启用', 
+  redirect_url        varchar(1000)                      NOT NULL COMMENT '跳转链接', 
+  channel             json                               NOT NULL COMMENT '渠道，JSON数组', 
+  type                smallint(6)                        NOT NULL COMMENT '类型，取值：1-优惠券 2-动态优惠券 3-优惠码 4-红包', 
+  validity_type       smallint(6)                        NOT NULL DEFAULT 1 COMMENT '有效期类型，取值：1-固定有效 2-动态有效期（领取/发放后N天有效）', 
+  validity_start_time datetime                                     DEFAULT NULL COMMENT '有效期开始时间', 
+  validity_end_time   datetime                                     DEFAULT NULL COMMENT '有效期结束时间', 
+  validity_days       int(10)                                      DEFAULT NULL COMMENT '领取/发放后有效天数', 
+  claim_start_time    datetime                                     DEFAULT NULL COMMENT '领取/发放开始时间', 
+  claim_end_time      datetime                                     DEFAULT NULL COMMENT '领取/发放结束时间', 
+  total               bigint(20)                         NOT NULL DEFAULT 0 COMMENT '总数量', 
+  claimed             bigint(20)                         NOT NULL DEFAULT 0 COMMENT '已领取/发放的数量', 
+  user_total          bigint(20)                         NOT NULL DEFAULT 0 COMMENT '用户总数量', 
+  user_daily_total    bigint(20)                         NOT NULL DEFAULT 0 COMMENT '用户每天的总数量', 
+  threshold           bigint(20)                                  DEFAULT NULL COMMENT '门槛值', 
+  discount            bigint(20)                         NOT NULL COMMENT '折扣值', 
+  exclusive           tinyint(1)                         NOT NULL COMMENT '是否互斥，取值：0-不互斥 1-互斥', 
+  PRIMARY KEY (id)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '优惠券规则';
+
+CREATE TABLE rule_target (
+  id                  bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID', 
+  create_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间', 
+  rule_type           smallint(6)                        NOT NULL COMMENT '类型，取值：1-优惠券 2-满减 3-满件折 4-满额赠 5-积分 6-金币', 
+  rule_id             bigint(20)                         NOT NULL COMMENT '规则ID', 
+  target_id           bigint(20)                         NOT NULL COMMENT '目标对象ID', 
+  target_type         smallint(6)                        NOT NULL COMMENT '目标对象类型，取值：1-商品 2-商户 3-类目', 
+  PRIMARY KEY (id),
+  KEY idx_rule_id (rule_id),
+  KEY idx_target_id (target_id)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '促销规则绑定的对象';
+
+CREATE TABLE user_coupon (
+  id                  bigint(20) unsigned AUTO_INCREMENT NOT NULL COMMENT '自增主键ID', 
+  create_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  update_time         datetime                           NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间', 
+  user_id             bigint(20)                         NOT NULL COMMENT '用户ID', 
+  coupon_id           bigint(20)                         NOT NULL COMMENT '优惠券ID', 
+  status              smallint(6)                        NOT NULL DEFAULT 1 COMMENT '状态，取值：1-未使用 2-已使用 3-已过期 4-已删除', 
+  claim_time          datetime                           NOT NULL COMMENT '领取/发放时间', 
+  use_time            datetime                                    DEFAULT NULL COMMENT '使用时间', 
+  validity_start_time datetime                                    DEFAULT NULL COMMENT '有效期开始时间', 
+  validity_end_time   datetime                                    DEFAULT NULL COMMENT '有效期结束时间', 
+  threshold           bigint(20)                                  DEFAULT NULL COMMENT '门槛值', 
+  discount            bigint(20)                         NOT NULL COMMENT '优惠值', 
+  channel             varchar(50)                        NOT NULL COMMENT '渠道', 
+  source              varchar(20)                        NOT NULL COMMENT '来源', 
+  unique_source_id    varchar(64)                        NOT NULL COMMENT '唯一来源ID', 
+  trade_no            varchar(64)                        NOT NULL COMMENT '交易单号', 
+  PRIMARY KEY (id), 
+  UNIQUE KEY uniq_user_source_id (user_id, source, unique_source_id),
+  KEY idx_user_coupon (user_id, coupon_id)
+) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '用户优惠券';

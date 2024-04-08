@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.pullock.promotion.core.dao.mapper.UserCouponMapper">
+  <resultMap id="BaseResultMap" type="fun.pullock.promotion.core.dao.model.UserCouponDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="coupon_id" jdbcType="BIGINT" property="couponId" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="claim_time" jdbcType="TIMESTAMP" property="claimTime" />
+    <result column="use_time" jdbcType="TIMESTAMP" property="useTime" />
+    <result column="validity_start_time" jdbcType="TIMESTAMP" property="validityStartTime" />
+    <result column="validity_end_time" jdbcType="TIMESTAMP" property="validityEndTime" />
+    <result column="threshold" jdbcType="BIGINT" property="threshold" />
+    <result column="discount" jdbcType="BIGINT" property="discount" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="unique_source_id" jdbcType="VARCHAR" property="uniqueSourceId" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, create_time, update_time, user_id, coupon_id, status, claim_time, use_time, validity_start_time, 
+    validity_end_time, threshold, discount, channel, source, unique_source_id, trade_no
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="fun.pullock.promotion.core.dao.model.UserCouponDO">
+    insert into user_coupon (id, create_time, update_time, 
+      user_id, coupon_id, status, 
+      claim_time, use_time, validity_start_time, 
+      validity_end_time, threshold, discount, 
+      channel, source, unique_source_id, 
+      trade_no)
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=BIGINT}, #{couponId,jdbcType=BIGINT}, #{status,jdbcType=SMALLINT}, 
+      #{claimTime,jdbcType=TIMESTAMP}, #{useTime,jdbcType=TIMESTAMP}, #{validityStartTime,jdbcType=TIMESTAMP}, 
+      #{validityEndTime,jdbcType=TIMESTAMP}, #{threshold,jdbcType=BIGINT}, #{discount,jdbcType=BIGINT}, 
+      #{channel,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{uniqueSourceId,jdbcType=VARCHAR}, 
+      #{tradeNo,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="fun.pullock.promotion.core.dao.model.UserCouponDO">
+    insert into user_coupon
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="couponId != null">
+        coupon_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="claimTime != null">
+        claim_time,
+      </if>
+      <if test="useTime != null">
+        use_time,
+      </if>
+      <if test="validityStartTime != null">
+        validity_start_time,
+      </if>
+      <if test="validityEndTime != null">
+        validity_end_time,
+      </if>
+      <if test="threshold != null">
+        threshold,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="uniqueSourceId != null">
+        unique_source_id,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null">
+        #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="claimTime != null">
+        #{claimTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useTime != null">
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityStartTime != null">
+        #{validityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityEndTime != null">
+        #{validityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="threshold != null">
+        #{threshold,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=BIGINT},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="uniqueSourceId != null">
+        #{uniqueSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.promotion.core.dao.model.UserCouponDO">
+    update user_coupon
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="couponId != null">
+        coupon_id = #{couponId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="claimTime != null">
+        claim_time = #{claimTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="useTime != null">
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityStartTime != null">
+        validity_start_time = #{validityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityEndTime != null">
+        validity_end_time = #{validityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="threshold != null">
+        threshold = #{threshold,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=BIGINT},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="uniqueSourceId != null">
+        unique_source_id = #{uniqueSourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="fun.pullock.promotion.core.dao.model.UserCouponDO">
+    update user_coupon
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_id = #{userId,jdbcType=BIGINT},
+      coupon_id = #{couponId,jdbcType=BIGINT},
+      status = #{status,jdbcType=SMALLINT},
+      claim_time = #{claimTime,jdbcType=TIMESTAMP},
+      use_time = #{useTime,jdbcType=TIMESTAMP},
+      validity_start_time = #{validityStartTime,jdbcType=TIMESTAMP},
+      validity_end_time = #{validityEndTime,jdbcType=TIMESTAMP},
+      threshold = #{threshold,jdbcType=BIGINT},
+      discount = #{discount,jdbcType=BIGINT},
+      channel = #{channel,jdbcType=VARCHAR},
+      source = #{source,jdbcType=VARCHAR},
+      unique_source_id = #{uniqueSourceId,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

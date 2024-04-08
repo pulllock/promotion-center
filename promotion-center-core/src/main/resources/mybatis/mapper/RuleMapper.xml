@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.pullock.promotion.core.dao.mapper.RuleMapper">
+  <resultMap id="BaseResultMap" type="fun.pullock.promotion.core.dao.model.RuleDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="scope" jdbcType="SMALLINT" property="scope" />
+    <result column="mode" jdbcType="SMALLINT" property="mode" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="exclusive" jdbcType="BIT" property="exclusive" />
+    <result column="order" jdbcType="INTEGER" property="order" />
+    <result column="channel" jdbcType="LONGVARCHAR" property="channel" />
+    <result column="rules" jdbcType="LONGVARCHAR" property="rules" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, create_time, update_time, name, description, type, scope, mode, status, start_time, 
+    end_time, exclusive, order, channel, rules
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rule
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from rule
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="fun.pullock.promotion.core.dao.model.RuleDO">
+    insert into rule (id, create_time, update_time, 
+      name, description, type, 
+      scope, mode, status, 
+      start_time, end_time, exclusive, 
+      order, channel, rules
+      )
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, 
+      #{scope,jdbcType=SMALLINT}, #{mode,jdbcType=SMALLINT}, #{status,jdbcType=SMALLINT}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{exclusive,jdbcType=BIT}, 
+      #{order,jdbcType=INTEGER}, #{channel,jdbcType=LONGVARCHAR}, #{rules,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="fun.pullock.promotion.core.dao.model.RuleDO">
+    insert into rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="scope != null">
+        scope,
+      </if>
+      <if test="mode != null">
+        mode,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="exclusive != null">
+        exclusive,
+      </if>
+      <if test="order != null">
+        order,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+      <if test="rules != null">
+        rules,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="scope != null">
+        #{scope,jdbcType=SMALLINT},
+      </if>
+      <if test="mode != null">
+        #{mode,jdbcType=SMALLINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exclusive != null">
+        #{exclusive,jdbcType=BIT},
+      </if>
+      <if test="order != null">
+        #{order,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.promotion.core.dao.model.RuleDO">
+    update rule
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="scope != null">
+        scope = #{scope,jdbcType=SMALLINT},
+      </if>
+      <if test="mode != null">
+        mode = #{mode,jdbcType=SMALLINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exclusive != null">
+        exclusive = #{exclusive,jdbcType=BIT},
+      </if>
+      <if test="order != null">
+        order = #{order,jdbcType=INTEGER},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="rules != null">
+        rules = #{rules,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="fun.pullock.promotion.core.dao.model.RuleDO">
+    update rule
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      scope = #{scope,jdbcType=SMALLINT},
+      mode = #{mode,jdbcType=SMALLINT},
+      status = #{status,jdbcType=SMALLINT},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      exclusive = #{exclusive,jdbcType=BIT},
+      order = #{order,jdbcType=INTEGER},
+      channel = #{channel,jdbcType=LONGVARCHAR},
+      rules = #{rules,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

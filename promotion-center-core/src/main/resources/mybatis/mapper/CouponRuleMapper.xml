@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.pullock.promotion.core.dao.mapper.CouponRuleMapper">
+  <resultMap id="BaseResultMap" type="fun.pullock.promotion.core.dao.model.CouponRuleDO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="rule_id" jdbcType="BIGINT" property="ruleId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="rule_description" jdbcType="VARCHAR" property="ruleDescription" />
+    <result column="status" jdbcType="SMALLINT" property="status" />
+    <result column="redirect_url" jdbcType="VARCHAR" property="redirectUrl" />
+    <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="validity_type" jdbcType="SMALLINT" property="validityType" />
+    <result column="validity_start_time" jdbcType="TIMESTAMP" property="validityStartTime" />
+    <result column="validity_end_time" jdbcType="TIMESTAMP" property="validityEndTime" />
+    <result column="validity_days" jdbcType="INTEGER" property="validityDays" />
+    <result column="claim_start_time" jdbcType="TIMESTAMP" property="claimStartTime" />
+    <result column="claim_end_time" jdbcType="TIMESTAMP" property="claimEndTime" />
+    <result column="total" jdbcType="BIGINT" property="total" />
+    <result column="claimed" jdbcType="BIGINT" property="claimed" />
+    <result column="user_total" jdbcType="BIGINT" property="userTotal" />
+    <result column="user_daily_total" jdbcType="BIGINT" property="userDailyTotal" />
+    <result column="threshold" jdbcType="BIGINT" property="threshold" />
+    <result column="discount" jdbcType="BIGINT" property="discount" />
+    <result column="exclusive" jdbcType="BIT" property="exclusive" />
+    <result column="channel" jdbcType="LONGVARCHAR" property="channel" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, create_time, update_time, rule_id, name, description, rule_description, status, 
+    redirect_url, type, validity_type, validity_start_time, validity_end_time, validity_days, 
+    claim_start_time, claim_end_time, total, claimed, user_total, user_daily_total, threshold, 
+    discount, exclusive, channel
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_rule
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from coupon_rule
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="fun.pullock.promotion.core.dao.model.CouponRuleDO">
+    insert into coupon_rule (id, create_time, update_time, 
+      rule_id, name, description, 
+      rule_description, status, redirect_url, 
+      type, validity_type, validity_start_time, 
+      validity_end_time, validity_days, claim_start_time, 
+      claim_end_time, total, claimed, 
+      user_total, user_daily_total, threshold, 
+      discount, exclusive, channel
+      )
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{ruleId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{ruleDescription,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{redirectUrl,jdbcType=VARCHAR}, 
+      #{type,jdbcType=SMALLINT}, #{validityType,jdbcType=SMALLINT}, #{validityStartTime,jdbcType=TIMESTAMP}, 
+      #{validityEndTime,jdbcType=TIMESTAMP}, #{validityDays,jdbcType=INTEGER}, #{claimStartTime,jdbcType=TIMESTAMP}, 
+      #{claimEndTime,jdbcType=TIMESTAMP}, #{total,jdbcType=BIGINT}, #{claimed,jdbcType=BIGINT}, 
+      #{userTotal,jdbcType=BIGINT}, #{userDailyTotal,jdbcType=BIGINT}, #{threshold,jdbcType=BIGINT}, 
+      #{discount,jdbcType=BIGINT}, #{exclusive,jdbcType=BIT}, #{channel,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="fun.pullock.promotion.core.dao.model.CouponRuleDO">
+    insert into coupon_rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="ruleId != null">
+        rule_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="ruleDescription != null">
+        rule_description,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="redirectUrl != null">
+        redirect_url,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="validityType != null">
+        validity_type,
+      </if>
+      <if test="validityStartTime != null">
+        validity_start_time,
+      </if>
+      <if test="validityEndTime != null">
+        validity_end_time,
+      </if>
+      <if test="validityDays != null">
+        validity_days,
+      </if>
+      <if test="claimStartTime != null">
+        claim_start_time,
+      </if>
+      <if test="claimEndTime != null">
+        claim_end_time,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="claimed != null">
+        claimed,
+      </if>
+      <if test="userTotal != null">
+        user_total,
+      </if>
+      <if test="userDailyTotal != null">
+        user_daily_total,
+      </if>
+      <if test="threshold != null">
+        threshold,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="exclusive != null">
+        exclusive,
+      </if>
+      <if test="channel != null">
+        channel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleId != null">
+        #{ruleId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleDescription != null">
+        #{ruleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="redirectUrl != null">
+        #{redirectUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="validityType != null">
+        #{validityType,jdbcType=SMALLINT},
+      </if>
+      <if test="validityStartTime != null">
+        #{validityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityEndTime != null">
+        #{validityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityDays != null">
+        #{validityDays,jdbcType=INTEGER},
+      </if>
+      <if test="claimStartTime != null">
+        #{claimStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="claimEndTime != null">
+        #{claimEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=BIGINT},
+      </if>
+      <if test="claimed != null">
+        #{claimed,jdbcType=BIGINT},
+      </if>
+      <if test="userTotal != null">
+        #{userTotal,jdbcType=BIGINT},
+      </if>
+      <if test="userDailyTotal != null">
+        #{userDailyTotal,jdbcType=BIGINT},
+      </if>
+      <if test="threshold != null">
+        #{threshold,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=BIGINT},
+      </if>
+      <if test="exclusive != null">
+        #{exclusive,jdbcType=BIT},
+      </if>
+      <if test="channel != null">
+        #{channel,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="fun.pullock.promotion.core.dao.model.CouponRuleDO">
+    update coupon_rule
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleId != null">
+        rule_id = #{ruleId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleDescription != null">
+        rule_description = #{ruleDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="redirectUrl != null">
+        redirect_url = #{redirectUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="validityType != null">
+        validity_type = #{validityType,jdbcType=SMALLINT},
+      </if>
+      <if test="validityStartTime != null">
+        validity_start_time = #{validityStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityEndTime != null">
+        validity_end_time = #{validityEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityDays != null">
+        validity_days = #{validityDays,jdbcType=INTEGER},
+      </if>
+      <if test="claimStartTime != null">
+        claim_start_time = #{claimStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="claimEndTime != null">
+        claim_end_time = #{claimEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=BIGINT},
+      </if>
+      <if test="claimed != null">
+        claimed = #{claimed,jdbcType=BIGINT},
+      </if>
+      <if test="userTotal != null">
+        user_total = #{userTotal,jdbcType=BIGINT},
+      </if>
+      <if test="userDailyTotal != null">
+        user_daily_total = #{userDailyTotal,jdbcType=BIGINT},
+      </if>
+      <if test="threshold != null">
+        threshold = #{threshold,jdbcType=BIGINT},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=BIGINT},
+      </if>
+      <if test="exclusive != null">
+        exclusive = #{exclusive,jdbcType=BIT},
+      </if>
+      <if test="channel != null">
+        channel = #{channel,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="fun.pullock.promotion.core.dao.model.CouponRuleDO">
+    update coupon_rule
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      rule_id = #{ruleId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      rule_description = #{ruleDescription,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      redirect_url = #{redirectUrl,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      validity_type = #{validityType,jdbcType=SMALLINT},
+      validity_start_time = #{validityStartTime,jdbcType=TIMESTAMP},
+      validity_end_time = #{validityEndTime,jdbcType=TIMESTAMP},
+      validity_days = #{validityDays,jdbcType=INTEGER},
+      claim_start_time = #{claimStartTime,jdbcType=TIMESTAMP},
+      claim_end_time = #{claimEndTime,jdbcType=TIMESTAMP},
+      total = #{total,jdbcType=BIGINT},
+      claimed = #{claimed,jdbcType=BIGINT},
+      user_total = #{userTotal,jdbcType=BIGINT},
+      user_daily_total = #{userDailyTotal,jdbcType=BIGINT},
+      threshold = #{threshold,jdbcType=BIGINT},
+      discount = #{discount,jdbcType=BIGINT},
+      exclusive = #{exclusive,jdbcType=BIT},
+      channel = #{channel,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>
