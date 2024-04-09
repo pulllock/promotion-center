@@ -21,7 +21,7 @@
 
   <sql id="Base_Column_List">
     id, create_time, update_time, name, description, type, scope, mode, status, start_time, 
-    end_time, exclusive, order, channel, rules
+    end_time, exclusive, `order`, channel, rules
   </sql>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -41,7 +41,7 @@
       name, description, type, 
       scope, mode, status, 
       start_time, end_time, exclusive, 
-      order, channel, rules
+      `order`, channel, rules
       )
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, 
@@ -91,7 +91,7 @@
         exclusive,
       </if>
       <if test="order != null">
-        order,
+        `order`,
       </if>
       <if test="channel != null">
         channel,
@@ -186,7 +186,7 @@
         exclusive = #{exclusive,jdbcType=BIT},
       </if>
       <if test="order != null">
-        order = #{order,jdbcType=INTEGER},
+        `order` = #{order,jdbcType=INTEGER},
       </if>
       <if test="channel != null">
         channel = #{channel,jdbcType=LONGVARCHAR},
@@ -211,7 +211,7 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       exclusive = #{exclusive,jdbcType=BIT},
-      order = #{order,jdbcType=INTEGER},
+      `order` = #{order,jdbcType=INTEGER},
       channel = #{channel,jdbcType=LONGVARCHAR},
       rules = #{rules,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}

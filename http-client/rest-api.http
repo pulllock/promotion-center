@@ -1,0 +1,160 @@
+### 计算，单商品优惠券，商品价格20，不满足满30-10的优惠券
+POST http://localhost:8080/rpc/promotion/calculate
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bizType": 0,
+  "channel": "app",
+  "orderItems": [
+    {
+      "sellerId": 1,
+      "products": [
+        {
+          "sellerId": 1,
+          "skuId": 1,
+          "price": 20
+        }
+      ]
+    }
+  ]
+}
+
+### 计算，单商品优惠券，商品价格30，满足满30-10的优惠券
+POST http://localhost:8080/rpc/promotion/calculate
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bizType": 0,
+  "channel": "app",
+  "orderItems": [
+    {
+      "sellerId": 1,
+      "products": [
+        {
+          "sellerId": 1,
+          "skuId": 1,
+          "price": 30
+        }
+      ]
+    }
+  ]
+}
+
+### 计算，单商品优惠券，商品价格40，满足满30-10的优惠券
+POST http://localhost:8080/rpc/promotion/calculate
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bizType": 0,
+  "channel": "app",
+  "orderItems": [
+    {
+      "sellerId": 1,
+      "products": [
+        {
+          "sellerId": 1,
+          "skuId": 1,
+          "price": 40
+        }
+      ]
+    }
+  ]
+}
+### 计算，多商品优惠券，商品总价格20，不能满足满40-20的优惠券
+POST http://localhost:8080/rpc/promotion/calculate
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bizType": 0,
+  "channel": "app",
+  "orderItems": [
+    {
+      "sellerId": 1,
+      "products": [
+        {
+          "sellerId": 1,
+          "skuId": 2,
+          "price": 5
+        },
+        {
+          "sellerId": 1,
+          "skuId": 3,
+          "price": 6
+        },
+        {
+          "sellerId": 1,
+          "skuId": 4,
+          "price": 9
+        }
+      ]
+    }
+  ]
+}
+
+### 计算，多商品优惠券，商品总价格40，能满足满40-20的优惠券
+POST http://localhost:8080/rpc/promotion/calculate
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bizType": 0,
+  "channel": "app",
+  "orderItems": [
+    {
+      "sellerId": 1,
+      "products": [
+        {
+          "sellerId": 1,
+          "skuId": 2,
+          "price": 5
+        },
+        {
+          "sellerId": 1,
+          "skuId": 3,
+          "price": 20
+        },
+        {
+          "sellerId": 1,
+          "skuId": 4,
+          "price": 15
+        }
+      ]
+    }
+  ]
+}
+
+### 计算，多商品优惠券，商品总价格50，能满足满40-20的优惠券
+POST http://localhost:8080/rpc/promotion/calculate
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bizType": 0,
+  "channel": "app",
+  "orderItems": [
+    {
+      "sellerId": 1,
+      "products": [
+        {
+          "sellerId": 1,
+          "skuId": 2,
+          "price": 10
+        },
+        {
+          "sellerId": 1,
+          "skuId": 3,
+          "price": 20
+        },
+        {
+          "sellerId": 1,
+          "skuId": 4,
+          "price": 20
+        }
+      ]
+    }
+  ]
+}

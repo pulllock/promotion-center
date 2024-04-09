@@ -67,7 +67,9 @@ public class RuleService {
             for (Map.Entry<Long, List<RuleTargetDO>> ruleIdEntry : groupByRuleId.entrySet()) {
                 // 优惠券类型的需要查询优惠券规则表
                 if (ruleTypeEntry.getKey() == RuleType.COUPON.getType()) {
-                    composite.setCouponRule(toCouponRuleDTO(couponRuleMapper.selectByPrimaryKey(ruleIdEntry.getKey())));
+                    CouponRuleDTO couponRule = toCouponRuleDTO(couponRuleMapper.selectByPrimaryKey(ruleIdEntry.getKey()));
+                    composite.setCouponRule(couponRule);
+                    composite.setRule(toRuleDTO(ruleMapper.selectByPrimaryKey(couponRule.getRuleId())));
                 }
                 // 其他类型的查询规则表
                 else {

@@ -1,21 +1,30 @@
 package fun.pullock.promotion.core.service;
 
+import fun.pullock.promotion.api.enums.CalculationBizType;
 import fun.pullock.promotion.api.model.param.CalculateParam;
 import fun.pullock.promotion.api.model.result.CalculateResult;
+import fun.pullock.promotion.core.calculation.CalculateContext;
+import fun.pullock.promotion.core.calculation.calculator.CalculatorFactory;
 import fun.pullock.promotion.core.model.calculate.OrderInfoDTO;
 import fun.pullock.promotion.core.model.calculate.RuleTargetCompositeDTO;
+import fun.pullock.starter.json.Json;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class PromotionCalculationService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PromotionCalculationService.class);
+
     @Resource
     private RuleService ruleService;
+
+    @Resource
+    private CalculatorFactory calculatorFactory;
 
     public CalculateResult calculate(CalculateParam param) {
         // 查询绑定的规则对象和规则
@@ -24,13 +33,15 @@ public class PromotionCalculationService {
 
         // TODO 排序
 
-        // 按照规则类型排序
-        Map<Integer, List<RuleTargetCompositeDTO>> groupByRuleType = ruleTargetComposites
-                .stream()
-                .collect(Collectors.groupingBy(RuleTargetCompositeDTO::getRuleType));
-
-        // TODO 计算
-        return null;
+        // 计算
+        CalculateContext context = new CalculateContext();
+        context.setParam(param);
+        context.setRuleTargetComposites(ruleTargetComposites);
+        context.setResult(new CalculateResult());
+        LOGGER.info("Before calculate: {}", Json.toJson(param));
+        calculatorFactory.getCalculator(CalculationBizType.of(param.getBizType())).execute(context);
+        LOGGER.info("After calculate: {}", Json.toJson(context.getParam()));
+        return context.getResult();
     }
 
     private OrderInfoDTO extractOrderInfo(CalculateParam param) {
