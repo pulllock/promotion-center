@@ -12,6 +12,7 @@
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="redirect_url" jdbcType="VARCHAR" property="redirectUrl" />
     <result column="type" jdbcType="SMALLINT" property="type" />
+    <result column="dynamic" jdbcType="BIT" property="dynamic" />
     <result column="validity_type" jdbcType="SMALLINT" property="validityType" />
     <result column="validity_start_time" jdbcType="TIMESTAMP" property="validityStartTime" />
     <result column="validity_end_time" jdbcType="TIMESTAMP" property="validityEndTime" />
@@ -30,7 +31,7 @@
 
   <sql id="Base_Column_List">
     id, create_time, update_time, rule_id, name, description, rule_description, status, 
-    redirect_url, type, validity_type, validity_start_time, validity_end_time, validity_days, 
+    redirect_url, type, dynamic, validity_type, validity_start_time, validity_end_time, validity_days,
     claim_start_time, claim_end_time, total, claimed, user_total, user_daily_total, threshold, 
     discount, exclusive, channel
   </sql>
@@ -51,20 +52,22 @@
     insert into coupon_rule (id, create_time, update_time, 
       rule_id, name, description, 
       rule_description, status, redirect_url, 
-      type, validity_type, validity_start_time, 
-      validity_end_time, validity_days, claim_start_time, 
-      claim_end_time, total, claimed, 
-      user_total, user_daily_total, threshold, 
-      discount, exclusive, channel
+      type, dynamic, validity_type,
+      validity_start_time, validity_end_time, validity_days,
+      claim_start_time, claim_end_time, total,
+      claimed, user_total, user_daily_total,
+      threshold, discount, exclusive,
+      channel
       )
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{ruleId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{ruleDescription,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{redirectUrl,jdbcType=VARCHAR}, 
-      #{type,jdbcType=SMALLINT}, #{validityType,jdbcType=SMALLINT}, #{validityStartTime,jdbcType=TIMESTAMP}, 
-      #{validityEndTime,jdbcType=TIMESTAMP}, #{validityDays,jdbcType=INTEGER}, #{claimStartTime,jdbcType=TIMESTAMP}, 
-      #{claimEndTime,jdbcType=TIMESTAMP}, #{total,jdbcType=BIGINT}, #{claimed,jdbcType=BIGINT}, 
-      #{userTotal,jdbcType=BIGINT}, #{userDailyTotal,jdbcType=BIGINT}, #{threshold,jdbcType=BIGINT}, 
-      #{discount,jdbcType=BIGINT}, #{exclusive,jdbcType=BIT}, #{channel,jdbcType=LONGVARCHAR}
+      #{type,jdbcType=SMALLINT}, #{dynamic,jdbcType=BIT}, #{validityType,jdbcType=SMALLINT},
+      #{validityStartTime,jdbcType=TIMESTAMP}, #{validityEndTime,jdbcType=TIMESTAMP}, #{validityDays,jdbcType=INTEGER},
+      #{claimStartTime,jdbcType=TIMESTAMP}, #{claimEndTime,jdbcType=TIMESTAMP}, #{total,jdbcType=BIGINT},
+      #{claimed,jdbcType=BIGINT}, #{userTotal,jdbcType=BIGINT}, #{userDailyTotal,jdbcType=BIGINT},
+      #{threshold,jdbcType=BIGINT}, #{discount,jdbcType=BIGINT}, #{exclusive,jdbcType=BIT},
+      #{channel,jdbcType=LONGVARCHAR}
       )
   </insert>
 
@@ -100,6 +103,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="dynamic != null">
+        dynamic,
       </if>
       <if test="validityType != null">
         validity_type,
@@ -174,6 +180,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="dynamic != null">
+        #{dynamic,jdbcType=BIT},
       </if>
       <if test="validityType != null">
         #{validityType,jdbcType=SMALLINT},
@@ -250,6 +259,9 @@
       <if test="type != null">
         type = #{type,jdbcType=SMALLINT},
       </if>
+      <if test="dynamic != null">
+        dynamic = #{dynamic,jdbcType=BIT},
+      </if>
       <if test="validityType != null">
         validity_type = #{validityType,jdbcType=SMALLINT},
       </if>
@@ -307,6 +319,7 @@
       status = #{status,jdbcType=SMALLINT},
       redirect_url = #{redirectUrl,jdbcType=VARCHAR},
       type = #{type,jdbcType=SMALLINT},
+      dynamic = #{dynamic,jdbcType=BIT},
       validity_type = #{validityType,jdbcType=SMALLINT},
       validity_start_time = #{validityStartTime,jdbcType=TIMESTAMP},
       validity_end_time = #{validityEndTime,jdbcType=TIMESTAMP},

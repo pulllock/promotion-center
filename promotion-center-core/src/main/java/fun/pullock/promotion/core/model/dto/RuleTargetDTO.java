@@ -1,4 +1,4 @@
-package fun.pullock.promotion.core.model;
+package fun.pullock.promotion.core.model.dto;
 
 import lombok.Data;
 

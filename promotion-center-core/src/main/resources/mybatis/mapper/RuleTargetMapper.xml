@@ -132,4 +132,16 @@
     </foreach>
     and target_type = #{targetType,jdbcType=SMALLINT}
   </select>
+
+  <select id="selectCouponTargets" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from rule_target
+    where target_id in
+    <foreach collection="targetIds" item="targetId" open="(" separator="," close=")">
+      #{targetId}
+    </foreach>
+    and target_type = #{targetType,jdbcType=SMALLINT}
+    and rule_type = 1
+  </select>
 </mapper>

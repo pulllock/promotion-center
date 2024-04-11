@@ -1,4 +1,4 @@
-package fun.pullock.promotion.core.model;
+package fun.pullock.promotion.core.model.dto;
 
 import lombok.Data;
 
@@ -26,6 +26,8 @@ public class CouponRuleDTO {
     private String redirectUrl;
 
     private Integer type;
+
+    private Boolean dynamic;
 
     private Integer validityType;
 

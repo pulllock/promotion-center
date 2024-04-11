@@ -158,3 +158,12 @@ Content-Type: application/json
     }
   ]
 }
+
+### 查询可用优惠券
+POST http://localhost:8080/app/coupon/list/available
+Content-Type: application/json
+
+{
+  "spuId": 1,
+  "couponType": 1
+}

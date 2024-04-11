@@ -27,6 +27,8 @@ public class CouponRuleDO {
 
     private Integer type;
 
+    private Boolean dynamic;
+
     private Integer validityType;
 
     private LocalDateTime validityStartTime;

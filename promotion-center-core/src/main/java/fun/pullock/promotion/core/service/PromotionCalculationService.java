@@ -5,8 +5,8 @@ import fun.pullock.promotion.api.model.param.CalculateParam;
 import fun.pullock.promotion.api.model.result.CalculateResult;
 import fun.pullock.promotion.core.calculation.CalculateContext;
 import fun.pullock.promotion.core.calculation.calculator.CalculatorFactory;
-import fun.pullock.promotion.core.model.calculate.OrderInfoDTO;
-import fun.pullock.promotion.core.model.calculate.RuleTargetCompositeDTO;
+import fun.pullock.promotion.core.model.dto.calculate.OrderInfoDTO;
+import fun.pullock.promotion.core.model.dto.calculate.RuleTargetsCompositeDTO;
 import fun.pullock.starter.json.Json;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class PromotionCalculationService {
     public CalculateResult calculate(CalculateParam param) {
         // 查询绑定的规则对象和规则
         OrderInfoDTO orderInfo = extractOrderInfo(param);
-        List<RuleTargetCompositeDTO> ruleTargetComposites = ruleService.queryRuleTargets(orderInfo);
+        List<RuleTargetsCompositeDTO> ruleTargetComposites = ruleService.queryRuleTargets(orderInfo);
 
         // TODO 排序
 

@@ -21,6 +21,24 @@ spring:
           max-idle: 20
           min-idle: 0
           max-wait: -1
+  cloud:
+    openfeign:
+      okhttp:
+        # 开启okhttp client
+        enabled: true
+      httpclient:
+        # 设置httpclient的连接超时时间，默认是2s
+        connection-timeout: 2000
+        # 设置连接池最大大小，默认200
+        max-connections: 200
+        ok-http:
+          # 设置okhttp的全局读超时时间，默认是60s
+          read-timeout: 60000
+      client:
+        config:
+          default:
+            # 日志级别
+            logger-level: full
 
 server:
   port: 8080
@@ -30,3 +48,10 @@ mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
   type-aliases-package: fun.pullock.promotion.core.dao.model
+
+# rpc服务配置
+rpc:
+  product-center:
+    name: product-center
+    # 本地调试使用
+    url: http://localhost:8080

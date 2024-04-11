@@ -1,14 +1,14 @@
-package fun.pullock.promotion.core.model.calculate;
+package fun.pullock.promotion.core.model.dto.calculate;
 
-import fun.pullock.promotion.core.model.CouponRuleDTO;
-import fun.pullock.promotion.core.model.RuleDTO;
-import fun.pullock.promotion.core.model.RuleTargetDTO;
+import fun.pullock.promotion.core.model.dto.CouponRuleDTO;
+import fun.pullock.promotion.core.model.dto.RuleDTO;
+import fun.pullock.promotion.core.model.dto.RuleTargetDTO;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class RuleTargetCompositeDTO {
+public class RuleTargetsCompositeDTO {
 
     /**
      * 规则类型，取值：1-优惠券 2-满减 3-满件折 4-满额赠 5-积分 6-金币

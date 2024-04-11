@@ -1,6 +1,9 @@
 package fun.pullock.promotion.core.dao.mapper;
 
 import fun.pullock.promotion.core.dao.model.UserCouponDO;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserCouponMapper {
 
@@ -15,4 +18,9 @@ public interface UserCouponMapper {
     int updateByPrimaryKeySelective(UserCouponDO row);
 
     int updateByPrimaryKey(UserCouponDO row);
+
+    List<UserCouponDO> selectByUserCouponId(
+            @Param("userId") Long userId,
+            @Param("couponId") Long couponId
+    );
 }

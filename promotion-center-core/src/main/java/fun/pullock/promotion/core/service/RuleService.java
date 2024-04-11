@@ -7,11 +7,11 @@ import fun.pullock.promotion.core.dao.model.CouponRuleDO;
 import fun.pullock.promotion.core.dao.model.RuleDO;
 import fun.pullock.promotion.core.dao.model.RuleTargetDO;
 import fun.pullock.promotion.core.enums.RuleType;
-import fun.pullock.promotion.core.model.CouponRuleDTO;
-import fun.pullock.promotion.core.model.RuleDTO;
-import fun.pullock.promotion.core.model.RuleTargetDTO;
-import fun.pullock.promotion.core.model.calculate.OrderInfoDTO;
-import fun.pullock.promotion.core.model.calculate.RuleTargetCompositeDTO;
+import fun.pullock.promotion.core.model.dto.CouponRuleDTO;
+import fun.pullock.promotion.core.model.dto.RuleDTO;
+import fun.pullock.promotion.core.model.dto.RuleTargetDTO;
+import fun.pullock.promotion.core.model.dto.calculate.OrderInfoDTO;
+import fun.pullock.promotion.core.model.dto.calculate.RuleTargetsCompositeDTO;
 import jakarta.annotation.Resource;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -37,7 +37,7 @@ public class RuleService {
     private CouponRuleMapper couponRuleMapper;
 
 
-    public List<RuleTargetCompositeDTO> queryRuleTargets(OrderInfoDTO orderInfo) {
+    public List<RuleTargetsCompositeDTO> queryRuleTargets(OrderInfoDTO orderInfo) {
         List<RuleTargetDO> targets = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(orderInfo.getSkuIds())) {
             targets.addAll(ruleTargetMapper.selectTargets(orderInfo.getSkuIds(), PRODUCT.getType()));
@@ -55,9 +55,9 @@ public class RuleService {
                 .stream()
                 .collect(Collectors.groupingBy(RuleTargetDO::getRuleType));
 
-        List<RuleTargetCompositeDTO> composites = new ArrayList<>();
+        List<RuleTargetsCompositeDTO> composites = new ArrayList<>();
         for (Map.Entry<Integer, List<RuleTargetDO>> ruleTypeEntry : groupByRuleType.entrySet()) {
-            RuleTargetCompositeDTO composite = new RuleTargetCompositeDTO();
+            RuleTargetsCompositeDTO composite = new RuleTargetsCompositeDTO();
             composite.setRuleType(ruleTypeEntry.getKey());
 
             Map<Long, List<RuleTargetDO>> groupByRuleId = ruleTypeEntry.getValue()
@@ -84,6 +84,10 @@ public class RuleService {
             composites.add(composite);
         }
         return composites;
+    }
+
+    public CouponRuleDTO queryById(Long id) {
+        return toCouponRuleDTO(couponRuleMapper.selectByPrimaryKey(id));
     }
 
     private RuleTargetDTO toRuleTargetDTO(RuleTargetDO source) {

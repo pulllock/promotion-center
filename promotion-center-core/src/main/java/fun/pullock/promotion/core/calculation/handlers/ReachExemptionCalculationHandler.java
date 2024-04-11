@@ -5,8 +5,8 @@ import fun.pullock.promotion.core.calculation.CalculateContext;
 import fun.pullock.promotion.core.enums.RuleMode;
 import fun.pullock.promotion.core.enums.RuleScope;
 import fun.pullock.promotion.core.enums.RuleType;
-import fun.pullock.promotion.core.model.RuleDTO;
-import fun.pullock.promotion.core.model.calculate.RuleTargetCompositeDTO;
+import fun.pullock.promotion.core.model.dto.RuleDTO;
+import fun.pullock.promotion.core.model.dto.calculate.RuleTargetsCompositeDTO;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
@@ -25,15 +25,15 @@ public class ReachExemptionCalculationHandler extends AbstractCalculationHandler
     @Override
     public void calculate(CalculateContext context) {
         // 按照规则类型排序
-        Map<Integer, List<RuleTargetCompositeDTO>> groupByRuleType = context.getRuleTargetComposites()
+        Map<Integer, List<RuleTargetsCompositeDTO>> groupByRuleType = context.getRuleTargetComposites()
                 .stream()
-                .collect(Collectors.groupingBy(RuleTargetCompositeDTO::getRuleType));
-        List<RuleTargetCompositeDTO> ruleTargets = groupByRuleType.get(ruleType().getType());
+                .collect(Collectors.groupingBy(RuleTargetsCompositeDTO::getRuleType));
+        List<RuleTargetsCompositeDTO> ruleTargets = groupByRuleType.get(ruleType().getType());
         if (CollectionUtils.isEmpty(ruleTargets)) {
             return;
         }
 
-        for (RuleTargetCompositeDTO ruleTarget : ruleTargets) {
+        for (RuleTargetsCompositeDTO ruleTarget : ruleTargets) {
             // 规则
             RuleDTO rule = ruleTarget.getRule();
 

@@ -1,9 +1,9 @@
-package fun.pullock.promotion.core.model.calculate;
+package fun.pullock.promotion.core.model.dto.calculate;
 
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 计算过程中使用到的订单中的信息
@@ -12,25 +12,25 @@ import java.util.Set;
 public class OrderInfoDTO {
 
     public OrderInfoDTO() {
-        skuIds = new HashSet<>();
-        sellerIds = new HashSet<>();
-        categoryIds = new HashSet<>();
+        skuIds = new ArrayList<>();
+        sellerIds = new ArrayList<>();
+        categoryIds = new ArrayList<>();
     }
 
     /**
      * SKU ID列表
      */
-    private Set<Long> skuIds;
+    private List<Long> skuIds;
 
     /**
      * 商户ID列表
      */
-    private Set<Long> sellerIds;
+    private List<Long> sellerIds;
 
     /**
      * 类目ID列表
      */
-    private Set<Long> categoryIds;
+    private List<Long> categoryIds;
 
     /**
      * 渠道
