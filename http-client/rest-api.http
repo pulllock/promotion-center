@@ -167,3 +167,12 @@ Content-Type: application/json
   "spuId": 1,
   "couponType": 1
 }
+
+### 查询可用促销规则
+POST http://localhost:8080/app/promotion/list/available
+Content-Type: application/json
+
+{
+  "spuId": 1,
+  "type": 2
+}

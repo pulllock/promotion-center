@@ -126,22 +126,19 @@
     select
     <include refid="Base_Column_List" />
     from rule_target
-    where target_id in
-    <foreach collection="targetIds" item="targetId" open="(" separator="," close=")">
-      #{targetId}
-    </foreach>
-    and target_type = #{targetType,jdbcType=SMALLINT}
-  </select>
-
-  <select id="selectCouponTargets" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from rule_target
-    where target_id in
-    <foreach collection="targetIds" item="targetId" open="(" separator="," close=")">
-      #{targetId}
-    </foreach>
-    and target_type = #{targetType,jdbcType=SMALLINT}
-    and rule_type = 1
+    <where>
+      <if test="targetIds != null and targetIds.size() > 0">
+        and target_id in
+        <foreach collection="targetIds" item="targetId" open="(" separator="," close=")">
+          #{targetId}
+        </foreach>
+      </if>
+    <if test="targetType != null">
+      and target_type = #{targetType,jdbcType=SMALLINT}
+    </if>
+    <if test="ruleType != null">
+      and rule_type = #{ruleType,jdbcType=SMALLINT}
+    </if>
+    </where>
   </select>
 </mapper>

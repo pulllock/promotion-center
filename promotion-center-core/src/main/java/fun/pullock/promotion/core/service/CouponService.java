@@ -1,5 +1,6 @@
 package fun.pullock.promotion.core.service;
 
+import fun.pullock.promotion.core.enums.RuleType;
 import fun.pullock.promotion.core.model.app.param.AvailableCouponParam;
 import fun.pullock.promotion.core.model.app.result.AvailableCoupon;
 import fun.pullock.promotion.core.model.dto.*;
@@ -33,6 +34,9 @@ public class CouponService {
     @Resource
     private UserCouponService userCouponService;
 
+    @Resource
+    private CouponRuleService couponRuleService;
+
     public List<AvailableCoupon> availableCoupons(Long userId, AvailableCouponParam param) {
         // 根据参数查询出的所有可用的优惠券
         // 根据spu id查询对应的sku id、商户ID、类目
@@ -48,8 +52,8 @@ public class CouponService {
                 .collect(Collectors.toList());
 
         // 查询优惠券规则对象
-        List<RuleTargetDTO> couponTargets = ruleTargetService.queryCouponTargets(
-                skuIds, Collections.singletonList(sellerId), categoryIds
+        List<RuleTargetDTO> couponTargets = ruleTargetService.queryTargets(
+                skuIds, Collections.singletonList(sellerId), categoryIds, RuleType.COUPON.getType()
         );
         if (CollectionUtils.isEmpty(couponTargets)) {
             return null;
@@ -60,7 +64,7 @@ public class CouponService {
                 .stream()
                 .map(RuleTargetDTO::getRuleId)
                 .distinct()
-                .map(i -> ruleService.queryById(i))
+                .map(i -> couponRuleService.queryById(i))
                 .filter(c -> c.getValidityEndTime() == null || LocalDateTime.now().isBefore(c.getValidityEndTime()))
                 .sorted(Comparator.comparing(CouponRuleDTO::getDiscount, Comparator.reverseOrder()))
                 .collect(Collectors.toList());

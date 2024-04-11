@@ -40,15 +40,15 @@ public class RuleService {
     public List<RuleTargetsCompositeDTO> queryRuleTargets(OrderInfoDTO orderInfo) {
         List<RuleTargetDO> targets = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(orderInfo.getSkuIds())) {
-            targets.addAll(ruleTargetMapper.selectTargets(orderInfo.getSkuIds(), PRODUCT.getType()));
+            targets.addAll(ruleTargetMapper.selectTargets(orderInfo.getSkuIds(), PRODUCT.getType(), null));
         }
 
         if (CollectionUtils.isNotEmpty(orderInfo.getSellerIds())) {
-            targets.addAll(ruleTargetMapper.selectTargets(orderInfo.getSellerIds(), SELLER.getType()));
+            targets.addAll(ruleTargetMapper.selectTargets(orderInfo.getSellerIds(), SELLER.getType(), null));
         }
 
         if (CollectionUtils.isNotEmpty(orderInfo.getCategoryIds())) {
-            targets.addAll(ruleTargetMapper.selectTargets(orderInfo.getCategoryIds(), CATEGORY.getType()));
+            targets.addAll(ruleTargetMapper.selectTargets(orderInfo.getCategoryIds(), CATEGORY.getType(), null));
         }
 
         Map<Integer, List<RuleTargetDO>> groupByRuleType = targets
@@ -86,8 +86,8 @@ public class RuleService {
         return composites;
     }
 
-    public CouponRuleDTO queryById(Long id) {
-        return toCouponRuleDTO(couponRuleMapper.selectByPrimaryKey(id));
+    public RuleDTO queryById(Long ruleId) {
+        return toRuleDTO(ruleMapper.selectByPrimaryKey(ruleId));
     }
 
     private RuleTargetDTO toRuleTargetDTO(RuleTargetDO source) {

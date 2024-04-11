@@ -18,11 +18,11 @@ public class RuleTargetService {
     @Resource
     private RuleTargetMapper ruleTargetMapper;
 
-    public List<RuleTargetDTO> queryCouponTargets(List<Long> skuIds, List<Long> sellerIds, List<Long> categoryIds) {
+    public List<RuleTargetDTO> queryTargets(List<Long> skuIds, List<Long> sellerIds, List<Long> categoryIds, Integer ruleType) {
         List<RuleTargetDTO> ruleTargets = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(skuIds)) {
             ruleTargets.addAll(
-                    ruleTargetMapper.selectCouponTargets(skuIds, RuleTargetType.PRODUCT.getType())
+                    ruleTargetMapper.selectTargets(skuIds, RuleTargetType.PRODUCT.getType(), ruleType)
                             .stream()
                             .map(this::toRuleTargetDTO)
                             .collect(Collectors.toList())
@@ -31,7 +31,7 @@ public class RuleTargetService {
 
         if (CollectionUtils.isNotEmpty(sellerIds)) {
             ruleTargets.addAll(
-                    ruleTargetMapper.selectCouponTargets(sellerIds, RuleTargetType.SELLER.getType())
+                    ruleTargetMapper.selectTargets(sellerIds, RuleTargetType.SELLER.getType(), ruleType)
                             .stream()
                             .map(this::toRuleTargetDTO)
                             .collect(Collectors.toList())
@@ -40,7 +40,7 @@ public class RuleTargetService {
 
         if (CollectionUtils.isNotEmpty(categoryIds)) {
             ruleTargets.addAll(
-                    ruleTargetMapper.selectCouponTargets(categoryIds, RuleTargetType.CATEGORY.getType())
+                    ruleTargetMapper.selectTargets(categoryIds, RuleTargetType.CATEGORY.getType(), ruleType)
                             .stream()
                             .map(this::toRuleTargetDTO)
                             .collect(Collectors.toList())

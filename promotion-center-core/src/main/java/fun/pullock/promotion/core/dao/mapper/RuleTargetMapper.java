@@ -21,11 +21,7 @@ public interface RuleTargetMapper {
 
     List<RuleTargetDO> selectTargets(
             @Param("targetIds") List<Long> targetIds,
-            @Param("targetType") int targetType
-    );
-
-    List<RuleTargetDO> selectCouponTargets(
-            @Param("targetIds") List<Long> targetIds,
-            @Param("targetType") int targetType
+            @Param("targetType") Integer targetType,
+            @Param("ruleType") Integer ruleType
     );
 }
