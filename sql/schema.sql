@@ -75,8 +75,8 @@ CREATE TABLE user_coupon (
   channel             varchar(50)                        NOT NULL COMMENT '渠道', 
   source              varchar(20)                        NOT NULL COMMENT '来源', 
   unique_source_id    varchar(64)                        NOT NULL COMMENT '唯一来源ID', 
-  trade_no            varchar(64)                        NOT NULL COMMENT '交易单号', 
+  trade_no            varchar(64)                                 DEFAULT NULL COMMENT '交易单号',
   PRIMARY KEY (id), 
-  UNIQUE KEY uniq_user_source_id (user_id, source, unique_source_id),
+  UNIQUE KEY uniq_user_coupon_source_id (user_id, coupon_id, source, unique_source_id),
   KEY idx_user_coupon (user_id, coupon_id)
 ) ENGINE = INNODB DEFAULT CHARSET = utf8mb4 COMMENT = '用户优惠券';

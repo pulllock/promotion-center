@@ -176,3 +176,14 @@ Content-Type: application/json
   "spuId": 1,
   "type": 2
 }
+
+### 领取优惠券
+POST http://localhost:8080/app/coupon/claim
+Content-Type: application/json
+
+{
+  "couponId": 1,
+  "channel": "app",
+  "source": "app",
+  "uniqueSourceId": "1"
+}

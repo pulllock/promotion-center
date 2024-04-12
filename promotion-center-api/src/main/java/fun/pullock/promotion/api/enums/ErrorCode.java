@@ -13,6 +13,9 @@ public enum ErrorCode implements BaseErrorCode {
     PARAM_ERROR(2, "参数错误"),
     CONCURRENCY_ERROR(3, "并发错误"),
 
+    // ========== 优惠券错误码 ========== //
+    USER_DAILY_EXCEEDED(10000, "超过当日可领取数量限制"),
+    USER_TOTAL_EXCEEDED(10001, "超过可领取数量限制"),
     ;
 
     ErrorCode(int errorCode, String errorMsg) {
