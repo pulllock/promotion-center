@@ -187,13 +187,6 @@ public class CouponService {
                     } finally {
                         redisLock.unlock(key);
                     }
-
-                    // 增加用户每日发放数量
-                    couponCounterService.userDailyClaim(userId, param.getCouponId(), 1L, now);
-
-                    // 增加用户总共发放数量
-                    couponCounterService.userTotalClaim(userId, param.getCouponId(), 1L);
-
                     return true;
                 } catch (ServiceException e) {
                     status.setRollbackOnly();
@@ -203,6 +196,13 @@ public class CouponService {
                     throw e;
                 }
             });
+
+            // 增加用户每日发放数量
+            couponCounterService.userDailyClaim(userId, param.getCouponId(), 1L, now);
+
+            // 增加用户总共发放数量
+            couponCounterService.userTotalClaim(userId, param.getCouponId(), 1L);
+
             return result;
         } finally {
             redisLock.unlock(uKey);
