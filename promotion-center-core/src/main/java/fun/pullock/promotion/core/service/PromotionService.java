@@ -28,22 +28,7 @@ public class PromotionService {
     private RuleService ruleService;
 
     public List<AvailablePromotion> availablePromotions(Long userId, AvailablePromotionParam param) {
-        // 根据spu id查询对应的sku id、商户ID、类目
-        MockProductDTO product = productClientService.queryBySpu(param.getSpuId());
-        List<Long> skuIds = product.getSkus()
-                .stream()
-                .map(MockProductDTO.MockProductSkuDTO::getId)
-                .collect(Collectors.toList());
-        Long sellerId = product.getSellerId();
-        List<Long> categoryIds = product.getCategories()
-                .stream()
-                .map(MockProductDTO.MockProductCategoryDTO::getId)
-                .collect(Collectors.toList());
-
-        // 查询促销规则对象
-        List<RuleTargetDTO> promotionTargets = ruleTargetService.queryTargets(
-                skuIds, Collections.singletonList(sellerId), categoryIds, param.getType()
-        );
+        List<RuleTargetDTO> promotionTargets = queryPromotionTargets(param);
         if (CollectionUtils.isEmpty(promotionTargets)) {
             return null;
         }
@@ -53,6 +38,24 @@ public class PromotionService {
                 .map(p -> ruleService.queryById(p.getRuleId()))
                 .map(this::toAvailablePromotion)
                 .collect(Collectors.toList());
+    }
+
+    private List<RuleTargetDTO> queryPromotionTargets(AvailablePromotionParam param) {
+        // 根据spu id查询对应的sku id、商户ID、类目
+        MockProductDTO product = productClientService.queryBySpu(param.getSpuId());
+        List<Long> skuIds = product.getSkus()
+                .stream()
+                .map(MockProductDTO.MockProductSkuDTO::getId)
+                .collect(Collectors.toList());
+        List<Long> categoryIds = product.getCategories()
+                .stream()
+                .map(MockProductDTO.MockProductCategoryDTO::getId)
+                .collect(Collectors.toList());
+
+        // 查询促销规则对象
+        return ruleTargetService.queryTargets(
+                skuIds, Collections.singletonList(product.getSellerId()), categoryIds, param.getType()
+        );
     }
 
     private AvailablePromotion toAvailablePromotion(RuleDTO source) {
