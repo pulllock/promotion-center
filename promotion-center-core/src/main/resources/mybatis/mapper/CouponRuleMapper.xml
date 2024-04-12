@@ -340,7 +340,7 @@
   <update id="updateClaimed">
     update coupon_rule
     set update_time = now(),
-        claimed = #{claimed,jdbcType=BIGINT},
+        claimed = #{claimed,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

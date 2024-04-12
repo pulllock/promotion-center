@@ -129,7 +129,7 @@ public class CouponService {
         // 查询已领取数量
         Long claimed = couponCounterService.claimed(param.getCouponId());
         claimed = claimed == null ? 0 : claimed;
-        if (rule.getTotal() - claimed - 1 <= 0) {
+        if (rule.getTotal() - claimed - 1 < 0) {
             throw new ServiceException(PARAM_ERROR, "已领完");
         }
 
@@ -160,17 +160,20 @@ public class CouponService {
                 throw new ServiceException(USER_DAILY_EXCEEDED);
             }
 
-            return transactionTemplate.execute(status -> {
-                try {
-                    // 记录用户优惠券
-                    userCouponService.add(userId, param, rule);
-
-                    String key = String.format("COUPON_CLAIM_INCREMENT_CLAIMED_LOCK_%s", param.getCouponId());
+            String key = String.format("COUPON_CLAIM_INCREMENT_CLAIMED_LOCK_%s", param.getCouponId());
+            boolean lock = redisLock.lock(key, 1000 * 60);
+            if (!lock) {
+                throw new ServiceException(CONCURRENCY_ERROR, "请重试");
+            }
+            try {
+                Boolean result = transactionTemplate.execute(status -> {
                     try {
+                        // 记录用户优惠券
+                        userCouponService.add(userId, param, rule);
                         // 查询已领取数量
                         Long couponClaimed = couponCounterService.claimed(param.getCouponId());
                         couponClaimed = couponClaimed == null ? 0 : couponClaimed;
-                        if (rule.getTotal() - couponClaimed - 1 <= 0) {
+                        if (rule.getTotal() - couponClaimed - 1 < 0) {
                             throw new ServiceException(PARAM_ERROR, "已领完");
                         }
 
@@ -179,27 +182,26 @@ public class CouponService {
                         if (Objects.equals(total, rule.getTotal())) {
                             couponRuleMapper.updateClaimed(rule.getId(), total);
                         }
-                    } finally {
-                        redisLock.unlock(key);
+
+                        // 增加用户每日发放数量
+                        couponCounterService.userDailyClaim(userId, param.getCouponId(), 1L, now);
+
+                        // 增加用户总共发放数量
+                        couponCounterService.userTotalClaim(userId, param.getCouponId(), 1L);
+
+                        return true;
+                    } catch (ServiceException e) {
+                        status.setRollbackOnly();
+                        throw e;
+                    } catch (Exception e) {
+                        status.setRollbackOnly();
+                        throw e;
                     }
-
-                    // 增加用户每日发放数量
-                    couponCounterService.userDailyClaim(userId, param.getCouponId(), 1L, now);
-
-                    // 增加用户总共发放数量
-                    couponCounterService.userTotalClaim(userId, param.getCouponId(), 1L);
-
-                    return true;
-                }
-                catch (ServiceException e) {
-                    status.setRollbackOnly();
-                    throw e;
-                }
-                catch (Exception e) {
-                    status.setRollbackOnly();
-                    throw e;
-                }
-            });
+                });
+                return result;
+            } finally {
+                redisLock.unlock(key);
+            }
         } finally {
             redisLock.unlock(uKey);
         }
